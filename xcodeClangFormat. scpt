@@ -1,7 +1,10 @@
-set clangformat to "clang-format "
+-- clang-format 工具目录
+set clangformat to "/usr/local/bin/clang-format "
 set clangStyle to " -i"
-set shellString to "-assume-filename=/Users/ak/Desktop/yoyonew/code/tools/.clang-format "
-set testPath to "/Users/yoyo/Desktop/ios/project/Philm/Philm/PLClasses/PLEditVideoModule/controllers/PLEditMovieVC.m"
+-- .clang-format 文件目录
+set shellString to "-assume-filename=/.clang-format "
+-- 测试文件目录
+set testPath to "/Users/liuming/Desktop/ZLPhotoBrowser-master/ZLPhotoBrowser/"
 set filePath to  testPath as POSIX file
 set fileList to traversalFile(filePath)
 
@@ -12,7 +15,8 @@ tell application "System Event"
 end tell
 
 on isDirectory(filePosixPath)
-    set fileType to (do shell script "file -b " & filePosixPath)
+    set diskPath to POSIX path of filePosixPath
+    set fileType to (do shell script "file -b " & diskPath)
     set typeString to  fileType as string
     if typeString ends with "directory" then return true
     return false
