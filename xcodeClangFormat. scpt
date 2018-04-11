@@ -1,0 +1,40 @@
+set clangformat to "clang-format "
+set clangStyle to " -i"
+set shellString to "-assume-filename=/Users/ak/Desktop/yoyonew/code/tools/.clang-format "
+set testPath to "/Users/yoyo/Desktop/ios/project/Philm/Philm/PLClasses/PLEditVideoModule/controllers/PLEditMovieVC.m"
+set filePath to  testPath as POSIX file
+set fileList to traversalFile(filePath)
+
+tell application "System Event"
+ repeat with path in fileList    
+    tell me to do shell script clangformat & shellString & path & clangStyle
+ end repeat
+end tell
+
+on isDirectory(filePosixPath)
+    set fileType to (do shell script "file -b " & filePosixPath)
+    set typeString to  fileType as string
+    if typeString ends with "directory" then return true
+    return false
+end isDirectory
+
+on traversalFile(filePosixPath)
+    set fileList to {}
+    if (not isDirectory(filePosixPath)) then
+        set filePath to POSIX path of  filePosixPath
+        set the end of fileList to filePath
+    else
+    -- 文件夹 遍历文件夹中所有符合要求的文件
+        set  _item to (alias (filePosixPath))
+        set _list to list folder _item without invisibles
+        repeat with path in _list
+            set dir to POSIX path of filePosixPath 
+            set filePath to dir & path
+            set posixFilePath to filePath as POSIX file
+            if (not isDirectory(posixFilePath))
+                set the end of fileList to filePath
+             end if
+        end repeat
+    end if
+    return fileList
+end traversalFile
