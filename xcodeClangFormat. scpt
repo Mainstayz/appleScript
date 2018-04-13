@@ -1,18 +1,25 @@
+-- 测试文件目录
+set testPath to "/Users/yoyo/Desktop/ios/project/Philm/Philm/PLClasses/PLEditVideoModule/views/PLFilterListView/"
+set filePath to  testPath as POSIX file
+ 
+foramtFile(filePath)
+
+on foramtFile(filePath)
 -- clang-format 工具目录
-set clangformat to "/usr/local/bin/clang-format "
+set clangformat to "$HOME" & "clang-format "
+
 set clangStyle to " -i"
 -- .clang-format 文件目录
-set shellString to "-assume-filename=/.clang-format "
--- 测试文件目录
-set testPath to "/Users/liuming/Desktop/ZLPhotoBrowser-master/ZLPhotoBrowser/"
-set filePath to  testPath as POSIX file
-set fileList to traversalFile(filePath)
+set shellString to "-assume-filename="& "$HOME" &"/.clang-format "
 
+set fileList to traversalFile(filePath)
 tell application "System Event"
  repeat with path in fileList    
     tell me to do shell script clangformat & shellString & path & clangStyle
  end repeat
 end tell
+return true
+end foramtFile
 
 on isDirectory(filePosixPath)
     set diskPath to POSIX path of filePosixPath
@@ -26,7 +33,9 @@ on traversalFile(filePosixPath)
     set fileList to {}
     if (not isDirectory(filePosixPath)) then
         set filePath to POSIX path of  filePosixPath
-        set the end of fileList to filePath
+        if isCanFormatFile(filePath) then
+            set the end of fileList to filePath
+        end if
     else
     -- 文件夹 遍历文件夹中所有符合要求的文件
         set  _item to (alias (filePosixPath))
@@ -36,9 +45,22 @@ on traversalFile(filePosixPath)
             set filePath to dir & path
             set posixFilePath to filePath as POSIX file
             if (not isDirectory(posixFilePath))
-                set the end of fileList to filePath
+                if isCanFormatFile(filePath) then
+                    set the end of fileList to filePath
+                end if
              end if
         end repeat
     end if
     return fileList
 end traversalFile
+
+on isCanFormatFile(filePath)
+-- set filePathLength to  the length of filePath
+set formatArray to {".h",".m",".java",".cs",".cpp",".mm",".c"}
+ repeat with formatString in formatArray
+    if filePath ends with  formatString then
+        return true
+    end if
+ end repeat
+return false
+end isCanFormatFile
