@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>AMApplicationBuild</key>
+	<string>428</string>
+	<key>AMApplicationVersion</key>
+	<string>2.7</string>
+	<key>AMDocumentVersion</key>
+	<string>2</string>
+	<key>actions</key>
+	<array>
+		<dict>
+			<key>action</key>
+			<dict>
+				<key>AMAccepts</key>
+				<dict>
+					<key>Container</key>
+					<string>List</string>
+					<key>Optional</key>
+					<true/>
+					<key>Types</key>
+					<array>
+						<string>com.apple.applescript.object</string>
+					</array>
+				</dict>
+				<key>AMActionVersion</key>
+				<string>1.0.2</string>
+				<key>AMApplication</key>
+				<array>
+					<string>Automator</string>
+				</array>
+				<key>AMParameterProperties</key>
+				<dict>
+					<key>source</key>
+					<dict/>
+				</dict>
+				<key>AMProvides</key>
+				<dict>
+					<key>Container</key>
+					<string>List</string>
+					<key>Types</key>
+					<array>
+						<string>com.apple.applescript.object</string>
+					</array>
+				</dict>
+				<key>ActionBundlePath</key>
+				<string>/System/Library/Automator/Run AppleScript.action</string>
+				<key>ActionName</key>
+				<string>运行 AppleScript</string>
+				<key>ActionParameters</key>
+				<dict>
+					<key>source</key>
+					<string>on run {input, parameters}	(* Your script goes here *)	set formatFilePath to ""	tell application "Xcode"		set CurrentActiveDocument to document 1 whose name ends with (word -1 of (get name of window 1))		set fullPath to path of CurrentActiveDocument		set formatFilePath to fullPath as POSIX file	end tell	return formatFilePathend run</string>
+				</dict>
+				<key>BundleIdentifier</key>
+				<string>com.apple.Automator.RunScript</string>
+				<key>CFBundleVersion</key>
+				<string>1.0.2</string>
+				<key>CanShowSelectedItemsWhenRun</key>
+				<false/>
+				<key>CanShowWhenRun</key>
+				<true/>
+				<key>Category</key>
+				<array>
+					<string>AMCategoryUtilities</string>
+				</array>
+				<key>Class Name</key>
+				<string>RunScriptAction</string>
+				<key>InputUUID</key>
+				<string>82890FE9-0450-4C6B-B25D-59D5ABAA0AAC</string>
+				<key>Keywords</key>
+				<array>
+					<string>运行</string>
+				</array>
+				<key>OutputUUID</key>
+				<string>CA8BEB75-D728-4C4E-909E-3636B5A46956</string>
+				<key>UUID</key>
+				<string>EEF087E1-5231-48EC-82E2-82142E3C99C3</string>
+				<key>UnlocalizedApplications</key>
+				<array>
+					<string>Automator</string>
+				</array>
+				<key>arguments</key>
+				<dict>
+					<key>0</key>
+					<dict>
+						<key>default value</key>
+						<string>on run {input, parameters}
+	
+	(* Your script goes here *)
+	
+	return input
+end run</string>
+						<key>name</key>
+						<string>source</string>
+						<key>required</key>
+						<string>0</string>
+						<key>type</key>
+						<string>0</string>
+						<key>uuid</key>
+						<string>0</string>
+					</dict>
+				</dict>
+				<key>isViewVisible</key>
+				<true/>
+				<key>location</key>
+				<string>449.000000:316.000000</string>
+				<key>nibPath</key>
+				<string>/System/Library/Automator/Run AppleScript.action/Contents/Resources/Base.lproj/main.nib</string>
+			</dict>
+			<key>isViewVisible</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>action</key>
+			<dict>
+				<key>AMAccepts</key>
+				<dict>
+					<key>Container</key>
+					<string>List</string>
+					<key>Optional</key>
+					<true/>
+					<key>Types</key>
+					<array>
+						<string>com.apple.applescript.object</string>
+					</array>
+				</dict>
+				<key>AMActionVersion</key>
+				<string>1.0.2</string>
+				<key>AMApplication</key>
+				<array>
+					<string>Automator</string>
+				</array>
+				<key>AMParameterProperties</key>
+				<dict>
+					<key>source</key>
+					<dict/>
+				</dict>
+				<key>AMProvides</key>
+				<dict>
+					<key>Container</key>
+					<string>List</string>
+					<key>Types</key>
+					<array>
+						<string>com.apple.applescript.object</string>
+					</array>
+				</dict>
+				<key>ActionBundlePath</key>
+				<string>/System/Library/Automator/Run AppleScript.action</string>
+				<key>ActionName</key>
+				<string>运行 AppleScript</string>
+				<key>ActionParameters</key>
+				<dict>
+					<key>source</key>
+					<string>on run {input, parameters}		(* Your script goes here *)	formatFile(input)	return inputend runon formatFile(filePath)	-- clang-format 工具目录	set clangformat to  "$HOME" &amp; "/clang-format "	set clangStyle to " -i"	-- .clang-format 文件目录	set shellString to "-assume-filename=" &amp; "$HOME" &amp; "/.clang-format "	set fileList to traversalFile(filePath)	tell application "Xcode"		repeat with pathString in fileList			set shellString to clangformat &amp; shellString &amp; pathString &amp; clangStyle			tell me to do shell script shellString		end repeat	end tell	return trueend formatFileon isDirectory(filePosixPath)	set diskPath to POSIX path of filePosixPath	set fileType to (do shell script "file -b " &amp; diskPath)	set typeString to fileType as string	if typeString ends with "directory" then return true	return falseend isDirectoryon traversalFile(filePosixPath)	set fileList to {}	if (not isDirectory(filePosixPath)) then		set filePath to POSIX path of filePosixPath		if isCanFormatFile(filePath) then			set the end of fileList to filePath		end if	else		-- 文件夹 遍历文件夹中所有符合要求的文件		set _item to (alias (filePosixPath))		set _list to list folder _item without invisibles		repeat with path in _list			set dir to POSIX path of filePosixPath			set filePath to dir &amp; path			set posixFilePath to filePath as POSIX file			if (not isDirectory(posixFilePath)) then				if isCanFormatFile(filePath) then					set the end of fileList to filePath				end if			end if		end repeat	end if	return fileListend traversalFileon isCanFormatFile(filePath)	-- set filePathLength to  the length of filePath	set formatArray to {".h", ".m", ".java", ".cs", ".cpp", ".mm", ".c"}	repeat with formatString in formatArray		if filePath ends with formatString then			return true		end if	end repeat	return falseend isCanFormatFile</string>
+				</dict>
+				<key>BundleIdentifier</key>
+				<string>com.apple.Automator.RunScript</string>
+				<key>CFBundleVersion</key>
+				<string>1.0.2</string>
+				<key>CanShowSelectedItemsWhenRun</key>
+				<false/>
+				<key>CanShowWhenRun</key>
+				<true/>
+				<key>Category</key>
+				<array>
+					<string>AMCategoryUtilities</string>
+				</array>
+				<key>Class Name</key>
+				<string>RunScriptAction</string>
+				<key>InputUUID</key>
+				<string>507CB54D-A481-4020-8CD4-3F9242C1DCF6</string>
+				<key>Keywords</key>
+				<array>
+					<string>运行</string>
+				</array>
+				<key>OutputUUID</key>
+				<string>020E5F35-9DB3-4BB3-99E2-63CBC8036E50</string>
+				<key>UUID</key>
+				<string>B0FC509D-91B4-49D3-BC70-018A5DA4265C</string>
+				<key>UnlocalizedApplications</key>
+				<array>
+					<string>Automator</string>
+				</array>
+				<key>arguments</key>
+				<dict>
+					<key>0</key>
+					<dict>
+						<key>default value</key>
+						<string>on run {input, parameters}
+	
+	(* Your script goes here *)
+	
+	return input
+end run</string>
+						<key>name</key>
+						<string>source</string>
+						<key>required</key>
+						<string>0</string>
+						<key>type</key>
+						<string>0</string>
+						<key>uuid</key>
+						<string>0</string>
+					</dict>
+				</dict>
+				<key>isViewVisible</key>
+				<true/>
+				<key>location</key>
+				<string>449.000000:562.000000</string>
+				<key>nibPath</key>
+				<string>/System/Library/Automator/Run AppleScript.action/Contents/Resources/Base.lproj/main.nib</string>
+			</dict>
+			<key>isViewVisible</key>
+			<true/>
+		</dict>
+	</array>
+	<key>connectors</key>
+	<dict>
+		<key>331886DE-109C-4CF4-845F-C9D579665C71</key>
+		<dict>
+			<key>from</key>
+			<string>EEF087E1-5231-48EC-82E2-82142E3C99C3 - EEF087E1-5231-48EC-82E2-82142E3C99C3</string>
+			<key>to</key>
+			<string>B0FC509D-91B4-49D3-BC70-018A5DA4265C - B0FC509D-91B4-49D3-BC70-018A5DA4265C</string>
+		</dict>
+	</dict>
+	<key>workflowMetaData</key>
+	<dict>
+		<key>serviceApplicationBundleID</key>
+		<string></string>
+		<key>serviceApplicationPath</key>
+		<string></string>
+		<key>serviceInputTypeIdentifier</key>
+		<string>com.apple.Automator.nothing</string>
+		<key>serviceOutputTypeIdentifier</key>
+		<string>com.apple.Automator.nothing</string>
+		<key>serviceProcessesInput</key>
+		<integer>0</integer>
+		<key>workflowTypeIdentifier</key>
+		<string>com.apple.Automator.servicesMenu</string>
+	</dict>
+</dict>
+</plist>
