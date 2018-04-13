@@ -6,7 +6,7 @@ foramtFile(filePath)
 --  格式目标文件
 on foramtFile(filePath)
 -- clang-format 工具目录
-set clangformat to "$HOME" & "clang-format "
+set clangformat to "$HOME" & "/clang-format  "
 set clangStyle to " -i"
 -- .clang-format 文件目录
 set shellString to "-assume-filename="& "$HOME" &"/.clang-format "
