@@ -3,11 +3,10 @@ set testPath to "/Users/yoyo/Desktop/ios/project/Philm/Philm/PLClasses/PLEditVid
 set filePath to  testPath as POSIX file
  
 foramtFile(filePath)
-
+--  格式目标文件
 on foramtFile(filePath)
 -- clang-format 工具目录
 set clangformat to "$HOME" & "clang-format "
-
 set clangStyle to " -i"
 -- .clang-format 文件目录
 set shellString to "-assume-filename="& "$HOME" &"/.clang-format "
@@ -28,7 +27,7 @@ on isDirectory(filePosixPath)
     if typeString ends with "directory" then return true
     return false
 end isDirectory
-
+-- 遍历文件
 on traversalFile(filePosixPath)
     set fileList to {}
     if (not isDirectory(filePosixPath)) then
@@ -54,8 +53,8 @@ on traversalFile(filePosixPath)
     return fileList
 end traversalFile
 
+-- 检验文件是否数组的格式
 on isCanFormatFile(filePath)
--- set filePathLength to  the length of filePath
 set formatArray to {".h",".m",".java",".cs",".cpp",".mm",".c"}
  repeat with formatString in formatArray
     if filePath ends with  formatString then
